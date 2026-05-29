@@ -1,8 +1,9 @@
-import { Search } from "lucide-react";
+import { Bell, Search } from "lucide-react";
 import Link from "next/link";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
+import { SignedOut, SignedIn, UserButton } from "@neondatabase/auth/react";
 
 export function NavBar() {
   return (
@@ -29,24 +30,50 @@ export function NavBar() {
             aria-label="Search posts"
           />
         </div>
-        <div className="ml-auto flex items-center gap-2">
+        {/* Signed out/in come from neon, wrapper only shows content in wrapper if user is signed out or in rather than a user? query */}
+        <SignedIn>
           <Link
-            href={"/auth/sign-in"}
+            href="/"
             className={cn(
-              buttonVariants({ variant: "ghost", size: "default" }),
+              buttonVariants({ variant: "outline", size: "sm" }),
+              "hidden sm:inline-flex",
             )}
           >
-            Log In
+            Create
           </Link>
-          <Link
-            href={"/auth/sign-up"}
-            className={cn(
-              buttonVariants({ variant: "default", size: "default" }),
-            )}
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-muted-foreground"
+            aria-label="Notifications"
           >
-            Sign Up
-          </Link>
-        </div>
+            <Bell className="size-5" />
+          </Button>
+          {/* UserButton provided by neon, includes settings and sign out functionality */}
+          <UserButton />
+        </SignedIn>
+
+        <SignedOut>
+          <div className="ml-auto flex items-center gap-2">
+            <Link
+              href={"/auth/sign-in"}
+              className={cn(
+                buttonVariants({ variant: "ghost", size: "default" }),
+              )}
+            >
+              Log In
+            </Link>
+            <Link
+              href={"/auth/sign-up"}
+              className={cn(
+                buttonVariants({ variant: "default", size: "default" }),
+              )}
+            >
+              Sign Up
+            </Link>
+          </div>
+        </SignedOut>
       </div>
     </header>
   );
