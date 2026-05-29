@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import { Flame, Home, LayoutGrid } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+import LeftTags from "./left-tags";
+import { JoinCtaCard } from "./join-cta-card";
 
 const nav = [
   { href: "/", label: "Home", icon: Home, match: "home" as const },
@@ -57,6 +59,17 @@ export function LeftSidebar({ showCta }: { showCta: boolean }) {
           );
         })}
       </nav>
+      <div className="mt-8">
+        <p className="mb-3 test-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          Top Tags
+        </p>
+        <LeftTags />
+      </div>
+      {showCta && (
+        <div className="mt-8">
+          <JoinCtaCard />
+        </div>
+      )}
     </aside>
   );
 }
