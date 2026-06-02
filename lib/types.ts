@@ -16,3 +16,9 @@ export type Post = {
   createdAt: string;
   commentCount: number;
 };
+
+export type Tag = {
+  slug: string;
+  label: string;
+  hashColor: string;
+};
