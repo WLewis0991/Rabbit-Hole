@@ -223,36 +223,6 @@ async function insertPost(data: SeedPost) {
   return post.id;
 }
 
-type VoteSeed = {
-  userId: string;
-  targetType: "post" | "comment";
-  targetId: string;
-  value: number;
-};
-
-/** Per post: two root comments, one reply, post votes from each demo author, comment votes. */
-async function seedCommentsAndVotes(postIds: string[]) {
-  if (postIds.length === 0) return;
-
-  const votes: VoteSeed[] = [];
-
-  for (let idx = 0; idx < postIds.length; idx++) {
-    const postId = postIds[idx];
-    const a = DEMO_AUTHORS[idx % DEMO_AUTHORS.length];
-    const b = DEMO_AUTHORS[(idx + 2) % DEMO_AUTHORS.length];
-    const c = DEMO_AUTHORS[(idx + 4) % DEMO_AUTHORS.length];
-
-    for (let v = 0; v < DEMO_AUTHORS.length; v++) {
-      votes.push({
-        userId: DEMO_AUTHORS[v],
-        targetType: "post",
-        targetId: postId,
-        value: v % 3 === 0 ? -1 : 1,
-      });
-    }
-  }
-}
-
 async function main() {
   console.log("Seeding tags…");
   await seedTags();
@@ -286,9 +256,6 @@ async function main() {
   for (const p of allPosts) {
     postIds.push(await insertPost(p));
   }
-
-  console.log("Seeding comments and votes…");
-  await seedCommentsAndVotes(postIds);
 
   console.log("Done.");
 }
