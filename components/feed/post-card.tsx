@@ -1,9 +1,10 @@
 import { formatRelativeTime } from "@/lib/format";
 import { Post, User, Tag } from "@/lib/types";
 import { UserAvatar } from "@neondatabase/auth/react";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, NotebookTextIcon } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { VoteButtons } from "./vote-buttons";
 
 function snippet(body: string, max = 160) {
   const t = body.replace(/\s+/g, " ").trim();
@@ -29,47 +30,57 @@ export function PostCard({
 
   return (
     <article className="rounded-xl ring-1 ring-foreground/10 bg-card p-3 md:p-4">
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <UserAvatar user={author} size="sm" />
-          <Link
-            href={`/post/${post.id}`}
-            className="hover:text-foreground transition-colors"
-          >
-            u/{author.username}
-          </Link>
-          <span aria-hidden="true">•</span>
-          <span>{formatRelativeTime(post.createdAt)}</span>
+      <div className="flex gap-3">
+        <div className="flex flex-col items-center gap-1 pt-1 text-muted-foreground">
+          <VoteButtons
+            target="post"
+            targetId={post.id}
+            score={score}
+            userVote={userVote}
+          />
         </div>
-        <Link href={`/post/${post.id}`} className="group">
-          <h2 className="font-heading text-base leading-snug font-medium group-hover:underline">
-            {post.title}
-          </h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            {snippet(post.body)}
-          </p>
-        </Link>
-
-        {primaryTag ? (
-          <div className="mt-2">
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <UserAvatar user={author} size="sm" />
             <Link
-              href={`/?tag=${encodeURIComponent(primaryTag.slug)}`}
-              className={cn(
-                "inline-flex rounded-md px-2 py-0.5 text-xs font-medium",
-                "bg-tag-bg text-tag-text",
-              )}
+              href={`/post/${post.id}`}
+              className="hover:text-foreground transition-colors"
             >
-              #{primaryTag.label}
+              u/{author.username}
             </Link>
+            <span aria-hidden="true">•</span>
+            <span>{formatRelativeTime(post.createdAt)}</span>
           </div>
-        ) : null}
+          <Link href={`/post/${post.id}`} className="group">
+            <h2 className="font-heading text-base leading-snug font-medium group-hover:underline">
+              {post.title}
+            </h2>
+            <p className="text-sm text-muted-foreground mt-1">
+              {snippet(post.body)}
+            </p>
+          </Link>
 
-        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          <MessageSquare className="size-4 shrink-0" />
-          <span>
-            {post.commentCount} Comment
-            {post.commentCount !== 1 ? "s" : ""}
-          </span>
+          {primaryTag ? (
+            <div className="mt-2">
+              <Link
+                href={`/?tag=${encodeURIComponent(primaryTag.slug)}`}
+                className={cn(
+                  "inline-flex rounded-md px-2 py-0.5 text-xs font-medium",
+                  "bg-tag-bg text-tag-text",
+                )}
+              >
+                #{primaryTag.label}
+              </Link>
+            </div>
+          ) : null}
+
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <MessageSquare className="size-4 shrink-0" />
+            <span>
+              {post.commentCount} Comment
+              {post.commentCount !== 1 ? "s" : ""}
+            </span>
+          </div>
         </div>
       </div>
     </article>
