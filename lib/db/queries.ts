@@ -1,6 +1,6 @@
 import { PostModel } from "../generated/prisma/models";
 import { prisma } from "../prisma";
-import { FeedSort, Post, User } from "../types";
+import { FeedSort, Post, Tag, User } from "../types";
 
 export type FeedPostRow = {
   post: Post;
@@ -33,6 +33,17 @@ export async function batchAuthorsForIds(
   }
 
   return result;
+}
+
+export async function listTags(): Promise<Tag[]> {
+  const rows = await prisma.tag.findMany({
+    orderBy: { slug: "asc" },
+  });
+  return rows.map((t) => ({
+    slug: t.slug,
+    label: t.label,
+    hashColor: t.hashColor,
+  }));
 }
 
 export async function listPostsSorted(

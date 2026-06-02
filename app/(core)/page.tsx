@@ -1,7 +1,11 @@
 import Image from "next/image";
 import { FeedSortTabs } from "@/components/feed/feed-sort-tabs";
 import { getSessionUser } from "@/lib/auth";
-import { batchAuthorsForIds, listPostsSorted } from "@/lib/db/queries";
+import {
+  batchAuthorsForIds,
+  listPostsSorted,
+  listTags,
+} from "@/lib/db/queries";
 import { FeedSort, Tag } from "@/lib/types";
 import { PostCard } from "@/components/feed/post-card";
 
@@ -18,6 +22,9 @@ export default async function Home({
   const sessionUser = await getSessionUser();
   const rows = await listPostsSorted(sort, tagFilter, sessionUser?.id);
 
+  const tags = await listTags();
+  const tagMap = new Map(tags.map((t) => [t.slug, t]));
+
   const authorIds = [...new Set(rows.map((r) => r.post.authorId))];
 
   const authorById = await batchAuthorsForIds(authorIds);
@@ -33,7 +40,7 @@ export default async function Home({
         key={row.post.id}
         post={row.post}
         author={author}
-        tagsBySlug={new Map<string, Tag>()}
+        tagsBySlug={tagMap}
         score={row.score}
         userVote={row.userVote}
       />
@@ -41,10 +48,10 @@ export default async function Home({
   });
 
   return (
-    <div>
-      <div>
+    <div className="flex gap-8">
+      <div className="min-w-0 flex-1">
         <FeedSortTabs />
-        <div>
+        <div className="space-y-4">
           {cards}
           {rows.length === 0 && (
             <p className="rounded-xl border border-border bg-card p-8 text-center text-sm text-muted-foreground">

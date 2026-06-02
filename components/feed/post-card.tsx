@@ -3,6 +3,7 @@ import { Post, User, Tag } from "@/lib/types";
 import { UserAvatar } from "@neondatabase/auth/react";
 import { MessageSquare } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 function snippet(body: string, max = 160) {
   const t = body.replace(/\s+/g, " ").trim();
@@ -49,16 +50,19 @@ export function PostCard({
           </p>
         </Link>
 
-        {primaryTag && (
-          <div>
+        {primaryTag ? (
+          <div className="mt-2">
             <Link
               href={`/?tag=${encodeURIComponent(primaryTag.slug)}`}
-              className="inline-flex items-center rounded-full bg-tag-bg px-2.5 py-0.5 text-xs font-medium text-tag-text transition-colors hover:bg-tag-bg/80"
+              className={cn(
+                "inline-flex rounded-md px-2 py-0.5 text-xs font-medium",
+                "bg-tag-bg text-tag-text",
+              )}
             >
               #{primaryTag.label}
             </Link>
           </div>
-        )}
+        ) : null}
 
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <MessageSquare className="size-4 shrink-0" />
