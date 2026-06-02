@@ -64,12 +64,16 @@ export async function listPostsSorted(
   const ids = postRows.map((p) => p.id);
   if (ids.length === 0) return [];
 
-  const [tagMap] = await Promise.all([tagsForPosts(ids)]);
+  const [tagMap, ccMap] = await Promise.all([
+    tagsForPosts(ids),
+    commentCountForPosts(ids),
+  ]);
 
   const mapped = postRows.map((row) => {
     const slugs = tagMap.get(row.id) ?? [];
+    const cc = ccMap.get(row.id) ?? 0;
     return {
-      post: mapPostRow(row, slugs, 65),
+      post: mapPostRow(row, slugs, cc),
       voteScore: 2,
       created: row.createdAt.getTime(),
       userVote: 1,
@@ -109,6 +113,22 @@ async function tagsForPosts(postIds: string[]): Promise<Map<string, string[]>> {
     const list = m.get(r.postId) ?? [];
     list.push(r.tagSlug);
     m.set(r.postId, list);
+  }
+  return m;
+}
+
+async function commentCountForPosts(
+  postIds: string[],
+): Promise<Map<string, number>> {
+  if (postIds.length === 0) return new Map();
+  const rows = await prisma.comment.groupBy({
+    by: ["postId"],
+    where: { postId: { in: postIds } },
+    _count: { _all: true },
+  });
+  const m = new Map<string, number>();
+  for (const r of rows) {
+    m.set(r.postId, r._count._all);
   }
   return m;
 }
