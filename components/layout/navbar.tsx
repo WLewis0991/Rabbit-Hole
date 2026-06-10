@@ -51,7 +51,7 @@ export function NavBar() {
             <Bell className="size-5" />
           </Button>
           {/* UserButton provided by neon, includes settings and sign out functionality */}
-          <UserButton />
+          <UserButton size="icon" />
         </SignedIn>
 
         <SignedOut>
