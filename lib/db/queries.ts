@@ -212,3 +212,22 @@ function mapPostRow(
     commentCount,
   };
 }
+
+export async function getPostById(id: string): Promise<Post | undefined> {
+  const row = await prisma.post.findUnique({ where: { id } });
+  if (!row) return undefined;
+
+  const [tagMap, ccMap] = await Promise.all([
+    tagsForPosts([id]),
+    commentCountForPosts([id]),
+  ]);
+
+  return mapPostRow(row, tagMap.get(id) ?? [], ccMap.get(id) ?? 0);
+}
+
+export async function getAuthorById(authorId: string): Promise<User> {
+  const row = await prisma.userProfile.findUnique({ where: { id: authorId } });
+  return row
+    ? { id: row.id, username: row.username }
+    : { id: authorId, username: `user_${authorId.slice(0, 6)}` };
+}
