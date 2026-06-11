@@ -231,3 +231,12 @@ export async function getAuthorById(authorId: string): Promise<User> {
     ? { id: row.id, username: row.username }
     : { id: authorId, username: `user_${authorId.slice(0, 6)}` };
 }
+
+export async function getPostScore(postId: string): Promise<number> {
+  const agg = await prisma.vote.aggregate({
+    where: { targetType: "post", targetId: postId },
+    _sum: { value: true },
+  });
+
+  return Number(agg._sum.value ?? 0);
+}

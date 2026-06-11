@@ -1,4 +1,9 @@
-import { getPostById, listTags } from "@/lib/db/queries";
+import {
+  getPostById,
+  getPostScore,
+  getUserVote,
+  listTags,
+} from "@/lib/db/queries";
 import { ArrowLeft, MessageSquare } from "lucide-react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -8,6 +13,8 @@ import { formatRelativeTime } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { VoteButtons } from "@/components/feed/vote-buttons";
+import { getSessionUser } from "@/lib/auth";
+import { CommentComposer } from "@/components/post/comment-composer";
 
 export default async function PostPage({
   params,
@@ -19,7 +26,11 @@ export default async function PostPage({
   if (!post) notFound();
 
   const author = await getAuthorById(post.authorId);
+  const sessionUser = await getSessionUser();
   const tags = await listTags();
+  const score = await getPostScore(post.id);
+  const userVote = await getUserVote(sessionUser?.id, "post", post.id);
+
   const primarySlug = post.tagSlugs[0];
   const primaryTag = primarySlug
     ? tags.find((t) => t.slug === primarySlug)
@@ -67,12 +78,12 @@ export default async function PostPage({
           <Separator className="my-6" />
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-3">
-              {/* <VoteButtons
+              <VoteButtons
                 target="post"
                 targetId={post.id}
                 score={score}
                 userVote={userVote}
-              /> */}
+              />
               <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
                 <MessageSquare className="size-4" />
                 {post.commentCount} Comments
@@ -80,6 +91,29 @@ export default async function PostPage({
             </div>
           </div>
         </article>
+
+        <section className="mt-8 rounded-xl border border-border bg-card p-4 md:p-6">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-lg font-semibold">
+              {post.commentCount} Comments
+            </h2>
+          </div>
+          {sessionUser ? (
+            <div className="mb-8">
+              <CommentComposer postId={post.id} user={sessionUser} />
+            </div>
+          ) : (
+            <p className="mb-8 rounded-lg border border-dashed border-border bg-muted/30 p-4 text-sm text-muted-foreground">
+              <Link
+                href="/auth/sign-in"
+                className="font-medium text-primary hover:underline"
+              >
+                Log in
+              </Link>{" "}
+              to join the discussion.
+            </p>
+          )}
+        </section>
       </div>
     </div>
   );
