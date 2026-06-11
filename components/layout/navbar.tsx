@@ -1,8 +1,8 @@
-import { Bell, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import Link from "next/link";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "../ui/button";
+import { buttonVariants } from "../ui/button";
 import { SignedOut, SignedIn, UserButton } from "@neondatabase/auth/react";
 import { ThemeToggle } from "./theme-toggle";
 
