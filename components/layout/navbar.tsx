@@ -33,7 +33,7 @@ export function NavBar() {
         {/* Signed out/in come from neon, wrapper only shows content in wrapper if user is signed out or in rather than a user? query */}
         <SignedIn>
           <Link
-            href="/"
+            href="/submit"
             className={cn(
               buttonVariants({ variant: "outline", size: "sm" }),
               "hidden sm:inline-flex",
