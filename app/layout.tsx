@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { NeonAuthUIProviderWrapper } from "@/providers/neon-auth-ui-provider";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -26,10 +27,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${inter.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground ">
-        <NeonAuthUIProviderWrapper>{children}</NeonAuthUIProviderWrapper>
+        <ThemeProvider>
+          <NeonAuthUIProviderWrapper>{children}</NeonAuthUIProviderWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );

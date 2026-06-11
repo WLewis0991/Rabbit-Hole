@@ -4,6 +4,7 @@ import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "../ui/button";
 import { SignedOut, SignedIn, UserButton } from "@neondatabase/auth/react";
+import { ThemeToggle } from "./theme-toggle";
 
 export function NavBar() {
   return (
@@ -30,6 +31,8 @@ export function NavBar() {
             aria-label="Search posts"
           />
         </div>
+        <ThemeToggle />
+
         {/* Signed out/in come from neon, wrapper only shows content in wrapper if user is signed out or in rather than a user? query */}
         <SignedIn>
           <Link
@@ -42,14 +45,6 @@ export function NavBar() {
             Create
           </Link>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-muted-foreground"
-            aria-label="Notifications"
-          >
-            <Bell className="size-5" />
-          </Button>
           {/* UserButton provided by neon, includes settings and sign out functionality */}
           <UserButton size="icon" />
         </SignedIn>

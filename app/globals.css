@@ -3,7 +3,7 @@
 @import "shadcn/tailwind.css";
 @import "@neondatabase/auth/ui/tailwind";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="retro"]) *);
 
 @theme inline {
   --color-background: var(--background);
@@ -48,18 +48,18 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-  --color-upvote: #ff4500;
-  --color-downvote: #7193ff;
-  --color-success: #46d160;
-  --color-error: #ff585b;
-  --color-tag-bg: #272729;
-  --color-tag-text: #ffb000;
-  --color-surface: #1a1a1b;
-  --color-surface-elevated: #272729;
+  --color-upvote: var(--upvote);
+  --color-downvote: var(--downvote);
+  --color-success: var(--success);
+  --color-error: var(--error);
+  --color-tag-bg: var(--tag-bg);
+  --color-tag-text: var(--tag-text);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
 }
 
 :root,
-.dark {
+[data-theme="dark"] {
   --background: #0b0b0c;
   --foreground: #d7dadc;
   --card: #1a1a1b;
@@ -93,6 +93,102 @@
   --sidebar-accent-foreground: #d7dadc;
   --sidebar-border: #343536;
   --sidebar-ring: #ff4500;
+  --tag-bg: #272729;
+  --tag-text: #ffb000;
+  --surface: #1a1a1b;
+  --surface-elevated: #272729;
+  --upvote: #ff4500;
+  --downvote: #7193ff;
+  --success: #46d160;
+  --error: #ff585b;
+}
+
+[data-theme="light"] {
+  --background: #ffffff;
+  --foreground: #111827;
+  --card: #ffffff;
+  --card-foreground: #111827;
+  --popover: #ffffff;
+  --popover-foreground: #111827;
+  --primary: #ff4500;
+  --primary-hover: #e03d00;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #111827;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+  --accent: #f3f4f6;
+  --accent-foreground: #111827;
+  --destructive: #ef4444;
+  --border: #e5e7eb;
+  --input: #d1d5db;
+  --ring: #ff4500;
+  --chart-1: #ff4500;
+  --chart-2: #7193ff;
+  --chart-3: #ffb000;
+  --chart-4: #16a34a;
+  --chart-5: #6b7280;
+  --radius: 0.625rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #111827;
+  --sidebar-primary: #ff4500;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f3f4f6;
+  --sidebar-accent-foreground: #111827;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #ff4500;
+  --tag-bg: #f3f4f6;
+  --tag-text: #ff4500;
+  --surface: #f9fafb;
+  --surface-elevated: #ffffff;
+  --upvote: #ff4500;
+  --downvote: #7193ff;
+  --success: #16a34a;
+  --error: #dc2626;
+}
+
+[data-theme="retro"] {
+  --background: #0c0f0c;
+  --foreground: #33ff33;
+  --card: #141914;
+  --card-foreground: #33ff33;
+  --popover: #141914;
+  --popover-foreground: #33ff33;
+  --primary: #ff6a00;
+  --primary-hover: #e05e00;
+  --primary-foreground: #000000;
+  --secondary: #1a241a;
+  --secondary-foreground: #33ff33;
+  --muted: #1a241a;
+  --muted-foreground: #2e8b2e;
+  --accent: #1a241a;
+  --accent-foreground: #33ff33;
+  --destructive: #ff3333;
+  --border: #1f3a1f;
+  --input: #1f3a1f;
+  --ring: #33ff33;
+  --chart-1: #ff6a00;
+  --chart-2: #33ff33;
+  --chart-3: #ffb000;
+  --chart-4: #00ffcc;
+  --chart-5: #2e8b2e;
+  --radius: 0.625rem;
+  --sidebar: #141914;
+  --sidebar-foreground: #33ff33;
+  --sidebar-primary: #ff6a00;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #1a241a;
+  --sidebar-accent-foreground: #33ff33;
+  --sidebar-border: #1f3a1f;
+  --sidebar-ring: #33ff33;
+  --tag-bg: #1a241a;
+  --tag-text: #ffb000;
+  --surface: #141914;
+  --surface-elevated: #1a241a;
+  --upvote: #ff6a00;
+  --downvote: #3366ff;
+  --success: #33ff33;
+  --error: #ff3333;
 }
 
 @layer base {
