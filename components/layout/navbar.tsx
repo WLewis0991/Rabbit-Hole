@@ -7,7 +7,7 @@ import { SignedOut, SignedIn, UserButton } from "@neondatabase/auth/react";
 
 export function NavBar() {
   return (
-    <header className="stick top-0 z-50 border-border bg-background/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-border bg-background/90 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-300 items-center gap-4 px-4">
         <Link
           href={"/"}

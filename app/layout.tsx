@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "rabbitHole",
-  description: "Reddit clone with NeonDB, NestJS, and Tailwind CSS",
+  description: "Reddit clone with NeonDB, NextJS, and Tailwind CSS",
 };
 
 export default function RootLayout({

@@ -67,7 +67,7 @@ export function LeftSidebar({
         })}
       </nav>
       <div className="mt-8">
-        <p className="mb-3 test-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
           Top Tags
         </p>
         <LeftTags items={tagsWithCounts} />

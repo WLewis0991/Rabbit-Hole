@@ -10,7 +10,7 @@ export const auth = createNeonAuth({
   },
 });
 
-// Get cached value to acces curent user Id quicker than going through prisma or something similar
+// Get cached value to access current user Id quicker than going through prisma or something similar
 export const getCurrentUserId = cache(async (): Promise<string | undefined> => {
   const { data: session } = await auth.getSession();
   return session?.user.id;

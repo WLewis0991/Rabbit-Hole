@@ -1,7 +1,7 @@
 import type { User } from "@/lib/types";
 import { prisma } from "../prisma";
 
-function gnerateUsername(name: string): string {
+function generateUsername(name: string): string {
   const base =
     name
       .trim()
@@ -32,7 +32,7 @@ export async function ensureUserProfile(neon: {
   }
 
   const row = await prisma.userProfile.create({
-    data: { id: neon.id, username: gnerateUsername(neon.name) },
+    data: { id: neon.id, username: generateUsername(neon.name) },
   });
 
   return {

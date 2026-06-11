@@ -55,7 +55,7 @@ export default async function Home({
           {cards}
           {rows.length === 0 && (
             <p className="rounded-xl border border-border bg-card p-8 text-center text-sm text-muted-foreground">
-              No pots match this filter.
+              No posts match this filter.
             </p>
           )}
         </div>
